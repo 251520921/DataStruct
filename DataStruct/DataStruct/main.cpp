@@ -1,7 +1,8 @@
+#include "Vector.h"
 #include <iostream>
-#include "Vector.hpp"
 
 int main() {
-	std::cout << "HelloWord!";
+	float f = 2;
+	std::cout << Vector<int>::dice();
 	return	0;
 }

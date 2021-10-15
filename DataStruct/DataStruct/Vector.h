@@ -1,4 +1,6 @@
 #pragma once
+#include <stdlib.h>
+#include <time.h>
 
 #define DEFAULT_CAPACITY 16
 using Rank = int;
@@ -34,6 +36,14 @@ public:
 	Rank remove(Rank lo, Rank hi);	//区域删除
 	T remove(Rank n);		//删除
 	Rank clear();		//清空
+
+	//静态接口
+	static int dice(int lo, int hi);	//取[lo,hi)的随机数
+	static int dice(int range);		//取[0,range)的随机数
+	static float dice(float range);
+	static double dice(double range);
+	static char dice();	//随机生成一个字符
+	
 };
 
 template<class T>
@@ -177,4 +187,33 @@ Rank Vector<T>::clear() {
 	delete[] _elem;
 	_elem = new T[_capacity = DEFAULT_CAPACITY];
 	return oldSize;
+}
+
+template<class T>
+int Vector<T>::dice(int lo, int hi) {
+	srand((unsigned)time(NULL));
+	return lo + rand() + (hi - lo);
+}
+
+template<class T>
+int Vector<T>::dice(int range){
+	dice(0, range);
+}
+
+template<class T>
+float Vector<T>::dice(float range) {
+	srand((unsigned)time(NULL));
+	return rand() % (1000 * (int)range) / (float)1000.; //取三位小数
+}
+
+template<class T>
+double Vector<T>::dice(double range) {
+	srand((unsigned)time(NULL));
+	return rand() % (100 * (int)range) / (float)100.;	//取两位小数
+}
+
+template<class T>
+char Vector<T>::dice() {
+	srand((unsigned)time(NULL));
+	return (char)(32 + rand() % 96);
 }
