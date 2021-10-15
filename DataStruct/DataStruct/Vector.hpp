@@ -13,18 +13,27 @@ private:
 protected:
 		
 public:
+	//构造函数
 	Vector(int s = 0, T const& e = 0, int c = DEFAULT_CAPACITY);
 	Vector(Vector<T> const& V, Rank lo, Rank hi);
 	Vector(Vector<T> const& V);
 	Vector(T const* A, Rank lo, Rank hi);
 	Vector(T const* A, Rank n);
-
+	//析构函数
+	~Vector();
+	//重载函数
 	Vector<T>& operator=(Vector<T> const& rhs);
 	T& operator[](Rank r) const;	//重载[]
 	operator T* () const;			//重载强制类型转换
-
+	//只读接口
 	Rank size() const;		//获取当前容量
 	bool empty() const;		//是否空向量
+	//可写接口
+	Rank insert(Rank r, T const& e);		//插入
+	Rank insert(T const& e);		//插入
+	Rank remove(Rank lo, Rank hi);	//区域删除
+	T remove(Rank n);		//删除
+	Rank clear();		//清空
 };
 
 template<class T>
@@ -100,6 +109,11 @@ Vector<T>::Vector(T const* A, Rank n) {
 }
 
 template<class T>
+Vector<T>::~Vector() {
+	delete[] _elem;
+}
+
+template<class T>
 Vector<T>& Vector<T>::operator=(Vector<T> const& rhs) {
 	copyFrom(rhs._elem, 0, rhs._size);
 }
@@ -121,4 +135,46 @@ Vector<T>::operator T* () const {
 template<class T>
 bool Vector<T>::empty() const {
 	return !_size;
+}
+
+template<class T>
+Rank Vector<T>::insert(Rank r, T const& e) {
+	expand();
+	for (int i = _size; i > r; i--)
+		_elem[i] = _elem[i - 1];
+	_size++;
+	_elem[r] = e;
+	return r;
+}
+
+template<class T>
+Rank Vector<T>::insert(T const& e) {
+	return insert(_size, e);
+}
+
+template<class T>
+Rank Vector<T>::remove(Rank lo, Rank hi) {
+	if (lo == hi) return 0;
+	int oldSize = _size;
+	while (hi < _size)
+		_elem[lo++] = _elem[hi++];
+	_size = lo;
+	shrink();
+	return hi - lo;
+}
+
+template<class T>
+T Vector<T>::remove(Rank r) {
+	T t = _elem[r];
+	remove(r, r + 1);
+	return t;
+}
+
+template<class T>
+Rank Vector<T>::clear() {
+	Rank oldSize = _size;
+	_size = 0;
+	delete[] _elem;
+	_elem = new T[_capacity = DEFAULT_CAPACITY];
+	return oldSize;
 }
