@@ -21,21 +21,28 @@ public:
 	Vector(Vector<T> const& V);
 	Vector(T const* A, Rank lo, Rank hi);
 	Vector(T const* A, Rank n);
+	
 	//析构函数
 	~Vector();
+	
 	//重载函数
 	Vector<T>& operator=(Vector<T> const& rhs);
 	T& operator[](Rank r) const;	//重载[]
 	operator T* () const;			//重载强制类型转换
+	
 	//只读接口
 	Rank size() const;		//获取当前容量
 	bool empty() const;		//是否空向量
+	Rank find(T const& e, Rank lo, Rank hi) const;//查找
+	Rank find(T const& e) const;		//查找
+	
 	//可写接口
 	Rank insert(Rank r, T const& e);		//插入
 	Rank insert(T const& e);		//插入
 	Rank remove(Rank lo, Rank hi);	//区域删除
 	T remove(Rank n);		//删除
 	Rank clear();		//清空
+	
 
 	//静态接口
 	static int dice(int lo, int hi);	//取[lo,hi)的随机数
@@ -146,6 +153,31 @@ template<class T>
 bool Vector<T>::empty() const {
 	return !_size;
 }
+
+/// <summary>
+/// 查找e在[lo,hi)中的秩
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="e">待查找的值</param>
+/// <param name="lo">低区间</param>
+/// <param name="hi">高区间</param>
+/// <returns>成功返回值在向量中的秩,失败返回小于待查找值的最大秩</returns>
+template<class T>
+Rank Vector<T>::find(T const& e, Rank lo, Rank hi) const {
+	while ((lo < hi--) && (e != _elem[hi]));
+	return hi;
+}
+/// <summary>
+/// 查找e在向量中的秩
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="e">要查找的值</param>
+/// <returns>成功返回值在向量中的秩,失败返回小于待查找值的最大秩</returns>
+template<class T>
+Rank Vector<T>::find(T const& e) const {
+	return find(e, 0, _size);
+}
+
 
 template<class T>
 Rank Vector<T>::insert(Rank r, T const& e) {

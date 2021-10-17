@@ -2,7 +2,7 @@
 #include <iostream>
 
 int main() {
-	float f = 2;
-	std::cout << Vector<int>::dice();
+	Vector<int> v1;
+	
 	return	0;
 }
