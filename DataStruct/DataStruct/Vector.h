@@ -42,7 +42,7 @@ public:
 	Rank remove(Rank lo, Rank hi);	//区域删除
 	T remove(Rank n);		//删除
 	Rank clear();		//清空
-	
+	int deduplicate();	//去除重复元素
 
 	//静态接口
 	static int dice(int lo, int hi);	//取[lo,hi)的随机数
@@ -219,6 +219,20 @@ Rank Vector<T>::clear() {
 	delete[] _elem;
 	_elem = new T[_capacity = DEFAULT_CAPACITY];
 	return oldSize;
+}
+/// <summary>
+/// 去除重复元素
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <returns>返回删除的元素数</returns>
+template<class T>
+int Vector<T>::deduplicate() {
+	int oldSize = _size;
+	int i = 1;
+	while (i < _size)
+		(find(_elem[i], 0, i) < 0) ? i++ : remove(i);
+	shrink();
+	return oldSize - _size;
 }
 
 template<class T>
