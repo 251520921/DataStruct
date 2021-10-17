@@ -44,6 +44,11 @@ public:
 	Rank clear();		//清空
 	int deduplicate();	//去除重复元素
 
+	//遍历
+	void traverse(void (*visit)(T&));	//函数指针
+	template<class VST>
+	void traverse(VST& visit);		//函数对象
+
 	//静态接口
 	static int dice(int lo, int hi);	//取[lo,hi)的随机数
 	static int dice(int range);		//取[0,range)的随机数
@@ -233,6 +238,28 @@ int Vector<T>::deduplicate() {
 		(find(_elem[i], 0, i) < 0) ? i++ : remove(i);
 	shrink();
 	return oldSize - _size;
+}
+
+/// <summary>
+/// 遍历向量
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="visit">函数指针</param>
+template<class T>
+void Vector<T>::traverse(void (*visit)(T&)) {
+	for (int i = 0; i < _size; i++)
+		visit(_elem[i]);
+}
+
+/// <summary>
+/// 遍历向量
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="visit">函数对象</param>
+template<class T> template<class VST>
+void Vector<T>::traverse(VST& visit) {
+	for (int i = 0; i < _size; i++)
+		visit(_elem[i]);
 }
 
 template<class T>
