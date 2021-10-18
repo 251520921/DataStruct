@@ -9,11 +9,14 @@ template<class T>
 class Vector {
 private:
 	T* _elem; int _size; int _capacity;		//数据区,当前容量,最大容量
-	void expand();		//扩容
-	void shrink();		//缩容
 	void copyFrom(T const* A, Rank lo, Rank hi);	//复制构造
 protected:
-		
+	//可写
+	void expand();		//扩容
+	void shrink();		//缩容
+	void swap(T& l, T& r);	//交换元素
+
+	Rank bubble(Rank lo, Rank hi);
 public:
 	//构造函数
 	Vector(int s = 0, T const& e = 0, int c = DEFAULT_CAPACITY);
@@ -36,6 +39,7 @@ public:
 	Rank find(T const& e, Rank lo, Rank hi) const;//查找
 	Rank find(T const& e) const;		//查找
 	
+
 	//可写接口
 	Rank insert(Rank r, T const& e);		//插入
 	Rank insert(T const& e);		//插入
@@ -43,6 +47,10 @@ public:
 	T remove(Rank n);		//删除
 	Rank clear();		//清空
 	int deduplicate();	//去除重复元素
+
+	void bubbleSort(Rank lo, Rank hi);	//冒泡排序
+	void bubbleSort();
+	
 
 	//遍历
 	void traverse(void (*visit)(T&));	//函数指针
@@ -52,7 +60,7 @@ public:
 
 	//静态接口
 	static int dice(int lo, int hi);	//取[lo,hi)的随机数
-	static int dice(int range);		//取[0,range)的随机数
+	static int dice(int range);			//取[0,range)的随机数
 	static float dice(float range);
 	static double dice(double range);
 	static char dice();	//随机生成一个字符
@@ -93,6 +101,32 @@ void Vector<T>::copyFrom(T const* A, Rank lo, Rank hi) {
 	_elem = new T[_capacity = (hi - lo) << 1];
 	for (_size = 0; lo < hi; _size++, lo++)
 		_elem[_size] = A[lo];
+}
+
+/// <summary>
+/// 交换元素
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="l">待交换元素</param>
+/// <param name="r">待交换元素</param>
+template<class T>
+void Vector<T>::swap(T& l, T& r) {
+	T temp = l;
+	l = r;
+	r = temp;
+}
+
+template<class T>
+Rank Vector<T>::bubble(Rank lo, Rank hi)
+{
+	Rank last = lo;
+	while (++lo < hi) {
+		if (_elem[lo - 1] > _elem[lo]) {
+			swap(_elem[lo - 1], _elem[lo]);
+			last = lo;
+		}
+	}
+	return last;
 }
 
 /// <summary>
@@ -241,6 +275,22 @@ int Vector<T>::deduplicate() {
 	return oldSize - _size;
 }
 
+/// <summary>
+/// 冒泡排序法,[lo,hi)
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="lo"></param>
+/// <param name="lo">低区间</param>
+/// <param name="hi">高区间</param>
+template<class T>
+void Vector<T>::bubbleSort(Rank lo, Rank hi) {
+	while (lo < (hi = bubble(lo, hi)));
+}
+
+template<class T>
+void Vector<T>::bubbleSort() {
+	bubbleSort(0, _size);
+}
 /// <summary>
 /// 遍历向量
 /// </summary>

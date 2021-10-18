@@ -7,13 +7,12 @@ void mout(int e) {
 }
 
 int main() {
-	Vector<int> v1(10,8);
-	v1.insert(9);
+	Vector<int> v1;
 	v1.insert(10);
-	v1.insert(0, 1);
-	v1.insert(1, 2);
+	v1.insert(9);
+	v1.insert(8);
+	v1.bubbleSort(0, 3);
 	v1.traverse(mout);
-	std::cout << "****************************" << std::endl;
-	v1.retraverse(mout);
+
 	return	0;
 }
