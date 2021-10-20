@@ -11,7 +11,8 @@ int main() {
 	v1.insert(10);
 	v1.insert(9);
 	v1.insert(8);
-	v1.bubbleSort(0, 3);
+	v1.selectSort(0, 3);
+//	v1.bubbleSort(0, 3);
 	v1.traverse(mout);
 
 	return	0;

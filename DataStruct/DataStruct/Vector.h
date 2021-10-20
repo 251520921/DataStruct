@@ -17,6 +17,7 @@ protected:
 	void swap(T& l, T& r);	//交换元素
 
 	Rank bubble(Rank lo, Rank hi);
+	Rank maxItem(Rank lo, Rank hi);
 public:
 	//构造函数
 	Vector(int s = 0, T const& e = 0, int c = DEFAULT_CAPACITY);
@@ -50,6 +51,8 @@ public:
 
 	void bubbleSort(Rank lo, Rank hi);	//冒泡排序
 	void bubbleSort();
+	void selectSort(Rank lo, Rank hi);	//选择排序
+	void selectSort();
 	
 
 	//遍历
@@ -290,6 +293,39 @@ void Vector<T>::bubbleSort(Rank lo, Rank hi) {
 template<class T>
 void Vector<T>::bubbleSort() {
 	bubbleSort(0, _size);
+}
+
+/// <summary>
+/// 选择排序
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="lo"></param>
+/// <param name="hi"></param>
+template<class T>
+void Vector<T>::selectSort(Rank lo, Rank hi) {
+	while (lo < --hi)
+		swap(_elem[maxItem(lo, hi)], _elem[hi]); //将[lo,hi]中的最大者与hi交换
+}
+
+template<class T>
+void Vector<T>::selectSort() {
+	selectSort(0, _elem);
+}
+
+/// <summary>
+/// 在[lo,hi]中找出最大者
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="lo">低区间</param>
+/// <param name="hi">高区间</param>
+/// <returns>返回最大者的秩</returns>
+template<class T>
+Rank Vector<T>::maxItem(Rank lo, Rank hi) {
+	Rank mx = hi;
+	while (lo < hi--)	//逆序扫描
+		if (_elem[hi] > _elem[mx])	//严格比较找出最大者
+			mx = hi;	//故能在max有多个时保证后者优先，进而保证selectionSort稳定
+	return mx;
 }
 /// <summary>
 /// 遍历向量
