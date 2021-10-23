@@ -18,6 +18,7 @@ protected:
 
 	Rank bubble(Rank lo, Rank hi);
 	Rank maxItem(Rank lo, Rank hi);
+	void merge(Rank lo, Rank mi, Rank hi);
 public:
 	//构造函数
 	Vector(int s = 0, T const& e = 0, int c = DEFAULT_CAPACITY);
@@ -53,6 +54,8 @@ public:
 	void bubbleSort();
 	void selectSort(Rank lo, Rank hi);	//选择排序
 	void selectSort();
+	void mergeSort(Rank lo, Rank hi);	//归并排序
+	void mergeSort();
 	
 
 	//遍历
@@ -310,6 +313,38 @@ void Vector<T>::selectSort(Rank lo, Rank hi) {
 template<class T>
 void Vector<T>::selectSort() {
 	selectSort(0, _elem);
+}
+
+/// <summary>
+/// 归并排序
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="lo">低区间</param>
+/// <param name="hi">高区间</param>
+template<class T>
+void Vector<T>::mergeSort(Rank lo, Rank hi)
+{
+	if ((hi - lo) < 2) return;
+	Rank mi = (lo + hi) >> 1;
+	mergeSort(lo, mi);
+	mergeSort(mi, hi);
+	merge(lo, mi, hi);
+}
+
+template<class T>
+void Vector<T>::mergeSort() {
+	mergeSort(0, _size);
+}
+
+template<class T>
+void Vector<T>::merge(Rank lo, Rank mi, Rank hi) {
+	Rank i = 0; T* A = _elem + lo;
+	Rank j = 0; int lb = mi - lo; T* B = new T[lb];
+	for (int i = 0; i < lb; i++) B[i] = A[i];
+	Rank k = 0; int lc = hi - mi; T* C = _elem + mi;
+	while (j < lb && k < lc) A[i++] = (B[j] <= C[k]) ? B[j++] : C[k++];
+	while (j < lb) A[i++] = B[j++];
+	delete[] B;
 }
 
 /// <summary>
