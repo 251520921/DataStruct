@@ -1,6 +1,7 @@
 #pragma once
 #include <stdlib.h>
 #include <time.h>
+#include "Fib.h"
 
 #define DEFAULT_CAPACITY 16
 using Rank = int;
@@ -42,6 +43,8 @@ public:
 	Rank find(T const& e) const;		//查找
 	Rank binSearch(T const& e, Rank lo, Rank hi) const; //二分查找
 	Rank binSearch(T const& e) const;
+	Rank fibSearch(T const& e, Rank lo, Rank hi) const; //斐契那波查找
+	Rank fibSearch(T const& e) const;
 
 	//可写接口
 	Rank insert(Rank r, T const& e);		//插入
@@ -248,7 +251,7 @@ Rank Vector<T>::binSearch(T const& e, Rank lo, Rank hi) const {
 /// </summary>
 /// <typeparam name="T"></typeparam>
 /// <param name="e">带查找的值</param>
-/// <returns>返回不大于待查找值的最大的值</returns>
+/// <returns>返回不大于待查找值的最大的秩</returns>
 template<class T>
 Rank Vector<T>::binSearch(T const& e)const {
 	return binSearch(e, 0, _size);
@@ -262,6 +265,36 @@ Rank Vector<T>::insert(Rank r, T const& e) {
 	_size++;
 	_elem[r] = e;
 	return r;
+}
+
+/// <summary>
+/// 斐契那波查找
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="e">带查找的值</param>
+/// <param name="lo">低区间</param>
+/// <param name="hi">高区间</param>
+/// <returns>返回不大于待查找值的最大的秩</returns>
+template<class T>
+Rank Vector<T>::fibSearch(T const& e, Rank lo, Rank hi) const {
+	Fib fib(hi - lo);
+	Rank mi;
+	while (lo < hi) {
+		while ((hi - lo) < fib.get()) fib.prev();
+		mi = lo + fib.get() - 1;
+		(_elem[mi] <= e) ? lo = ++mi : hi = mi;
+	}
+	return --lo;
+}
+/// <summary>
+/// 斐波那契查找
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="e">待查找的值</param>
+/// <returns>返回不大于待查找值的最大的秩</returns>
+template<class T>
+Rank Vector<T>::fibSearch(T const& e) const {
+	return fibSearch(e, 0, _size);
 }
 
 template<class T>

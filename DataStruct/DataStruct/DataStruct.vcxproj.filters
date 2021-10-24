@@ -26,5 +26,8 @@
     <ClInclude Include="Vector.h">
       <Filter>头文件\Vector</Filter>
     </ClInclude>
+    <ClInclude Include="Fib.h">
+      <Filter>头文件\Vector</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

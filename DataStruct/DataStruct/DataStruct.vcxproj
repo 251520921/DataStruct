@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Fib.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
