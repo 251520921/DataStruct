@@ -40,7 +40,8 @@ public:
 	bool empty() const;		//是否空向量
 	Rank find(T const& e, Rank lo, Rank hi) const;//查找
 	Rank find(T const& e) const;		//查找
-	
+	Rank binSearch(T const& e, Rank lo, Rank hi) const; //二分查找
+	Rank binSearch(T const& e) const;
 
 	//可写接口
 	Rank insert(Rank r, T const& e);		//插入
@@ -224,6 +225,34 @@ Rank Vector<T>::find(T const& e) const {
 	return find(e, 0, _size);
 }
 
+/// <summary>
+/// 二分查找
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="e">要查找的值</param>
+/// <param name="lo">低区间</param>
+/// <param name="hi">高区间</param>
+/// <returns>返回不小于待查找值的最大的秩</returns>
+template<class T>
+Rank Vector<T>::binSearch(T const& e, Rank lo, Rank hi) const {
+	int mi;
+	while (lo < hi) {
+		mi = (lo + hi) >> 1;
+		(_elem[mi] <= e) ? lo = ++mi : hi = mi;
+	}
+	return --lo;
+}
+
+/// <summary>
+/// 二分查找
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="e">带查找的值</param>
+/// <returns>返回不大于待查找值的最大的值</returns>
+template<class T>
+Rank Vector<T>::binSearch(T const& e)const {
+	return binSearch(e, 0, _size);
+}
 
 template<class T>
 Rank Vector<T>::insert(Rank r, T const& e) {
