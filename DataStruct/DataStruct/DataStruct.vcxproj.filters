@@ -16,6 +16,9 @@
     <Filter Include="头文件\Vector">
       <UniqueIdentifier>{3f0a9de6-72ef-4f50-988d-5e80a50be4d1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="头文件\List">
+      <UniqueIdentifier>{0878a0fa-e9a9-4a05-a534-8d9c5b2fc33b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -28,6 +31,12 @@
     </ClInclude>
     <ClInclude Include="Fib.h">
       <Filter>头文件\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="List.h">
+      <Filter>头文件\List</Filter>
+    </ClInclude>
+    <ClInclude Include="ListNode.h">
+      <Filter>头文件\List</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

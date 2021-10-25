@@ -140,6 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Fib.h" />
+    <ClInclude Include="List.h" />
+    <ClInclude Include="ListNode.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
