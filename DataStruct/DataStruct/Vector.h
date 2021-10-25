@@ -54,6 +54,8 @@ public:
 	Rank clear();		//Çå¿Õ
 	int deduplicate();	//È¥³ıÖØ¸´ÔªËØ
 	int uniquify();		//ÓĞĞòÈ¥ÖØ
+	void unsort(Rank lo, Rank hi); //ÖÃÂÒ
+	void unsort();	//ÖÃÂÒ
 
 	void bubbleSort(Rank lo, Rank hi);	//Ã°ÅİÅÅĞò
 	void bubbleSort();
@@ -355,6 +357,19 @@ int Vector<T>::uniquify() {
 	return oldSize - _size;
 }
 
+template<class T>
+void Vector<T>::unsort(Rank lo, Rank hi)
+{
+	T* V = _elem + lo;
+	for (int i = hi - lo; i > 0; i--) {
+		swap(V[i - 1], V[dice(i)]);
+	}
+}
+
+template<class T>
+void Vector<T>::unsort() {
+	unsort(0, _size);
+}
 
 /// <summary>
 /// Ã°ÅİÅÅĞò·¨,[lo,hi)
@@ -474,12 +489,12 @@ void Vector<T>::retraverse(VST& visit) {
 template<class T>
 int Vector<T>::dice(int lo, int hi) {
 	srand((unsigned)time(NULL));
-	return lo + rand() + (hi - lo);
+	return lo + rand() % (hi - lo);
 }
 
 template<class T>
 int Vector<T>::dice(int range){
-	dice(0, range);
+	return dice(0, range);
 }
 
 template<class T>
