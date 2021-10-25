@@ -53,6 +53,7 @@ public:
 	T remove(Rank n);		//删除
 	Rank clear();		//清空
 	int deduplicate();	//去除重复元素
+	int uniquify();		//有序去重
 
 	void bubbleSort(Rank lo, Rank hi);	//冒泡排序
 	void bubbleSort();
@@ -342,6 +343,18 @@ int Vector<T>::deduplicate() {
 	shrink();
 	return oldSize - _size;
 }
+template<class T>
+int Vector<T>::uniquify() {
+	int oldSize = _size;
+	Rank i = 0, j = 0;
+	while (++j < _size) {
+		if (_elem[i] != _elem[j]) _elem[++i] = _elem[j];
+	}
+	_size = ++i;
+	shrink();
+	return oldSize - _size;
+}
+
 
 /// <summary>
 /// 冒泡排序法,[lo,hi)
