@@ -26,16 +26,16 @@ public:
 /// <returns>返回插入的位置</returns>
 template<class T>
 Posi(T) ListNode<T>::insertAsPred(T const& e) {
-	Posi(T) p = new ListNode<T>(e, this->pred, this);
-	this->pred->succ = p;
-	this->pred = p;
-	return p;
+	Posi(T) x = new ListNode<T>(e, this->pred, this);
+	this->pred->succ = x;
+	this->pred = x;
+	return x;
 }
 
 template<class T>
 Posi(T) ListNode<T>::insertAsSucc(T const& e) {
-	Posi(T) p = new ListNode<T>(e, this, this->succ);
-	this->succ->pred = p;
-	this->succ = p;
-	return p;
+	Posi(T) x = new ListNode<T>(e, this, this->succ);
+	this->succ->pred = x;
+	this->succ = x;
+	return x;
 }

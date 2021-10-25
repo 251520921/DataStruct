@@ -5,13 +5,15 @@
 int main() {
 	List<int> list;
 	
-	list.insert(1);
-	list.insert(2);
-	list.insert(3);
-	list.insert(4);
-	list.insert(5);
-	list.insert(6);
-	list.insert(7);
+	list.insertAsLast(1);
+	list.insertAsLast(2);
+	list.insertAsLast(3);
+	list.insertAsLast(4);
+	list.insertAsLast(5);
+	list.insertAsLast(6);
+	list.insertAsLast(7);
+
+	list.clear();
 
 	return	0;
 }
